@@ -2,6 +2,7 @@ package com.projeto.application.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.projeto.application.dto.UsuarioDTO;
+import com.projeto.application.model.Post;
 import com.projeto.application.model.Usuario;
 import com.projeto.application.services.UsuarioService;
 
@@ -60,5 +62,11 @@ public class UsuarioResource {
 		user.setId(id);
 		service.atualizar(user);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<Set<Post>> buscarPosts(@PathVariable String id){
+		Usuario user = service.findById(id);
+		return ResponseEntity.ok().body(user.getPosts());
 	}
 }
